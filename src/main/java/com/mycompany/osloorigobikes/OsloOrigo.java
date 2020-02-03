@@ -49,8 +49,6 @@ public class OsloOrigo {
 
         System.out.println("Station name\tnumber of bikes available\tnumber of docks available");
 
-
-
         for (int i = 0; i < stationInfoGson.data.stations.size(); i++) {
             for (int n = 0; n < stationStatusGson.data.stations.size(); n++) {
                 if (stationInfoGson.data.stations.get(i).getStation_id().equals(stationStatusGson.data.stations.get(n).getStation_id())) {
@@ -60,7 +58,6 @@ public class OsloOrigo {
                     int num_docks_available = stationStatusGson.data.stations.get(n).getNum_docks_available();
 
                     System.out.println(statioName + "\t" + num_bikes_available + "\t" + num_docks_available);
-                   
 
                 }
 
@@ -78,7 +75,11 @@ public class OsloOrigo {
 
         // Consume the inputStream so the process can exit
         incomingData = consumeInputStream(inputStream);
-
+        try {
+            process.waitFor();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(OsloOrigo.class.getName()).log(Level.SEVERE, null, ex);
+        }
         int exitCode = process.exitValue();
 
         return incomingData;
